@@ -311,6 +311,8 @@ PACKAGES = [
     'Bio.SearchIO.BlastIO',
     'Bio.SearchIO.HmmerIO',
     'Bio.SearchIO.ExonerateIO',
+    "Bio.seqcluster",
+    "Bio.seqcluster.applications",
     'Bio.SeqIO',
     'Bio.SeqUtils',
     'Bio.Sequencing',

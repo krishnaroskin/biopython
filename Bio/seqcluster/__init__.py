@@ -6,6 +6,10 @@
 """
 from __future__ import print_function
 
+import tempfile
+
+from Bio import SeqIO
+
 __docformat__ = "epytext en"  # Don't just use plain text in epydoc API pages!
 
 class SeqCluster(object):
@@ -132,6 +136,21 @@ def CDHITClustIterator(handle):
             return  # StopIteration
 
     assert False, "Should not reach this line"
+
+def DNAClustHandler(sequences, identity_cutoff, **kwargs):
+    import StringIO
+    from Bio.seqcluster.applications import DNAClustCommandline
+    from Bio.seqcluster import DNAClustIterator
+
+    # write the sequences to a temp. FASTA file
+    tmp_file = tempfile.NamedTemporaryFile('w')
+    SeqIO.write(sequences, tmp_file, "fasta")
+    tmp_file.flush()
+
+    cmd = DNAClustCommandline(inputfile=tmp_file.name, similarity=identity_cutoff, **kwargs)
+    
+    stdout, stderr = cmd()
+    return DNAClustIterator(StringIO.StringIO(stdout))
 
 if __name__ == "__main__":
     from Bio._utils import run_doctest

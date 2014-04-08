@@ -8,6 +8,8 @@ __docformat__ = "epytext en"  # Don't just use plain text in epydoc API pages!
 
 from ._DNAClust import DNAClustCommandline
 from ._CDHIT import CDHITCommandline
+from ._CDHIT import CDHITESTCommandline
+from ._CDHIT import CDHIT454Commandline
 
 #Make this explicit, then they show up in the API docs
-__all__ = ["DNAClustCommandline", "CDHITCommandline"]
+__all__ = ["DNAClustCommandline", "CDHITCommandline", "CDHITESTCommandline", "CDHIT454Commandline"]

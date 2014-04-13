@@ -12,7 +12,7 @@ __docformat__ = "epytext en"  # Don't just use plain text in epydoc API pages!
 from Bio.Application import _Option, _Switch, _Argument, AbstractCommandline
 
 class DNAClustCommandline(AbstractCommandline):
-    """Command line wrapper for the equence clustering program DNACLUST.
+    """Command line wrapper for the sequence clustering program DNACLUST.
 
     http://dnaclust.sourceforge.net/
 
@@ -21,8 +21,8 @@ class DNAClustCommandline(AbstractCommandline):
     To cluster a FASTA file (seq.fasta) with DNACLUST, use:
 
     >>> from Bio.seqcluster.applications import DNAClustCommandline
-    >>> dnaclust_cline = DNAClustCommandline(inputfile="seq.fasta",
-    ...                                      similarity=0.45, header=True, threads=4)
+    >>> dnaclust_cline = DNAClustCommandline(input_file="seq.fasta",
+    ...                                      similarity=0.80, header=True, threads=4)
     >>> print(dnaclust_cline)
     dnaclust --similarity 0.45 --header --threads 4 seq.fasta
 
@@ -34,6 +34,8 @@ class DNAClustCommandline(AbstractCommandline):
         stdout, stderr = dnaclust_cline()
         with open("aligned.aln", "w") as handle:
             handle.write(stdout)
+
+    The cluster file can be parsed with Bio.seqcluster.DNAClustIterator.
 
     Citations:
 

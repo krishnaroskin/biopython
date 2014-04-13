@@ -2,7 +2,7 @@
 # This code is part of the Biopython distribution and governed by its
 # license.  Please see the LICENSE file that should have been included
 # as part of this package.
-"""Command line wrapper for the sequence clustering program CD-HIT.
+"""Commandline wrappers for the family of sequence clustering programs CD-HIT.
 """
 
 from __future__ import print_function
@@ -12,7 +12,10 @@ __docformat__ = "epytext en"  # Don't just use plain text in epydoc API pages!
 from Bio.Application import _Option, _Switch, _Argument, AbstractCommandline
 
 class _CDHITCommandlineBase(AbstractCommandline):
-    """
+    """Base class for the all CD-HIT tools.
+
+    This class serves as a base for all CD-HIT tools. Options shared between all CD-HIT
+    tools are defined here.
     """
     def __init__(self, cmd=None, **kwargs):
         assert cmd is not None
@@ -89,7 +92,10 @@ class _CDHITCommandlineBase(AbstractCommandline):
         AbstractCommandline.__init__(self, cmd, **kwargs)
 
 class _CDHITOrCDHITESTCommandline(_CDHITCommandlineBase):
-    """
+    """Base class for CD-HIT and CD-HIT-EST.
+
+    This base class inherits from _CDHITCommandlineBase and add options shared with
+    CD-HIT and CD-HIT-EST.
     """
     def __init__(self, cmd=None, **kwargs):
         assert cmd is not None
@@ -151,7 +157,35 @@ class _CDHITOrCDHITESTCommandline(_CDHITCommandlineBase):
         _CDHITCommandlineBase.__init__(self, cmd, **kwargs)
 
 class CDHITCommandline(_CDHITOrCDHITESTCommandline):
-    """
+    """Command line wrapper for the sequence clustering program CD-HIT.
+
+    http://weizhong-lab.ucsd.edu/cd-hit/
+
+    Example:
+
+    To cluster a FASTA file (seq.fasta) of amino acid sequences with CD-HIT, use:
+
+    >>> from Bio.seqcluster.applications import CDHITCommandline
+    >>> cdhit_cline = CDHITCommandline(input_file="seq.fasta", output_file="cluster",
+    ...                                cutoff=0.80, print_overlap=1, threads=4)
+    >>> print(cdhit_cline)
+    cd-hit -i seq.fasta -o cluster -c 0.8 -T 4 -p 1
+
+    You would typically run the command line with cdhit_cline() or via
+    the Python subprocess module, as described in the Biopython tutorial.
+
+    The output file (cluster.clstr) can be parsed with Bio.seqcluster.CDHITClustIterator.
+
+    Citations:
+
+    "Cd-hit: a fast program for clustering and comparing large sets of protein or nucleotide
+    sequences", Weizhong Li & Adam Godzik Bioinformatics, (2006) 22:1658-9.
+
+    Limin Fu, Beifang Niu, Zhengwei Zhu, Sitao Wu and Weizhong Li, CD-HIT: accelerated for
+    clustering the next generation sequencing data. Bioinformatics, (2012),
+    28 (23):3150-3152. doi: 10.1093/bioinformatics/bts565.
+
+    Last checked against vision 4.5.4 dated: 2012-08-27.
     """
     def __init__(self, cmd="cd-hit", **kwargs):
         self.parameters = [
@@ -165,7 +199,35 @@ class CDHITCommandline(_CDHITOrCDHITESTCommandline):
         _CDHITOrCDHITESTCommandline.__init__(self, cmd, **kwargs)
 
 class CDHITESTCommandline(_CDHITOrCDHITESTCommandline):
-    """
+    """Command line wrapper for the sequence clustering program CD-HIT-EST.
+
+    http://weizhong-lab.ucsd.edu/cd-hit/
+
+    Example:
+
+    To cluster a FASTA file (seq.fasta) of nucleotide sequences with CD-HIT-EST, use:
+
+    >>> from Bio.seqcluster.applications import CDHITESTCommandline
+    >>> cdhitest_cline = CDHITESTCommandline(input_file="seq.fasta", output_file="cluster",
+    ...                                      cutoff=0.80, threads=4)
+    >>> print(cdhitest_cline)
+    cd-hit-est -i seq.fasta -o cluster -c 0.8 -T 4
+
+    You would typically run the command line with cdhitest_cline() or via
+    the Python subprocess module, as described in the Biopython tutorial.
+
+    The output file (cluster.clstr) can be parsed with Bio.seqcluster.CDHITClustIterator.
+
+    Citations:
+
+    "Cd-hit: a fast program for clustering and comparing large sets of protein or nucleotide
+    sequences", Weizhong Li & Adam Godzik Bioinformatics, (2006) 22:1658-9.
+
+    Limin Fu, Beifang Niu, Zhengwei Zhu, Sitao Wu and Weizhong Li, CD-HIT: accelerated for
+    clustering the next generation sequencing data. Bioinformatics, (2012),
+    28 (23):3150-3152. doi: 10.1093/bioinformatics/bts565.
+
+    Last checked against vision 4.5.4 dated: 2012-08-27.
     """
     def __init__(self, cmd="cd-hit-est", **kwargs):
         self.parameters = [
@@ -199,9 +261,37 @@ class CDHITESTCommandline(_CDHITOrCDHITESTCommandline):
         _CDHITOrCDHITESTCommandline.__init__(self, cmd, **kwargs)
 
 class CDHIT454Commandline(_CDHITCommandlineBase):
+    """Command line wrapper for the sequence clustering program CD-HIT-454.
+
+    http://weizhong-lab.ucsd.edu/cd-hit/
+
+    Example:
+
+    To cluster a FASTA file (seq.fasta) of nucleotide sequences with CD-HIT-454, use:
+
+    >>> from Bio.seqcluster.applications import CDHIT454Commandline
+    >>> cdhit454_cline = CDHIT454Commandline(input_file="seq.fasta", output_file="cluster",
+    ...                                      cutoff=0.80, threads=4)
+    >>> print(cdhit454_cline)
+    cd-hit-454 -i seq.fasta -o cluster -c 0.8 -T 4
+
+    You would typically run the command line with cdhit454_cline() or via
+    the Python subprocess module, as described in the Biopython tutorial.
+
+    The output file (cluster.clstr) can be parsed with Bio.seqcluster.CDHITClustIterator.
+
+    Citations:
+
+    "Cd-hit: a fast program for clustering and comparing large sets of protein or nucleotide
+    sequences", Weizhong Li & Adam Godzik Bioinformatics, (2006) 22:1658-9.
+
+    Limin Fu, Beifang Niu, Zhengwei Zhu, Sitao Wu and Weizhong Li, CD-HIT: accelerated for
+    clustering the next generation sequencing data. Bioinformatics, (2012),
+    28 (23):3150-3152. doi: 10.1093/bioinformatics/bts565.
+
+    Last checked against vision 4.5.4 dated: 2012-08-27.
     """
-    """
-    def __init__(self, cmd="cd-hit", **kwargs):
+    def __init__(self, cmd="cd-hit-454", **kwargs):
         self.parameters = [
                 _Option(["-D", "D", "max_indel_size"],
                     "max size per indel, default 1",
